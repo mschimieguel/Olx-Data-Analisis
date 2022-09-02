@@ -1,6 +1,7 @@
 
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 
 
@@ -14,9 +15,11 @@ def getAnuncios(url,headers):
 
     return anuncios
 
+
 def getDescricaoAnuncio(url,headers):
     response = requests.get(url,headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
+    #exemplo da tag que contem a descricao do anuncio
     #<span class="sc-1sj3nln-1 eOSweo sc-ifAKCX cmFKIN" color="dark" font-weight="400">
     span_tags = soup.select('span[font-weight][color="dark"]')
 
@@ -41,25 +44,23 @@ anuncios = []
 for i in range(1,5):
     #trocando de paginas
     url = url[:-1] + str(i)
-    print(url)
+    print("Coletando Pagina: \n",url)
 
     anuncios.extend(getAnuncios(url,headers))
 
    
-count = 0
+count = 1
 print(len(anuncios))
 
 
 for anuncio in anuncios:
-    print("Count: ",count)
+    print("Coletando Anuncio: ",count)
     count = count + 1
     descricoes.append(getDescricaoAnuncio(anuncio,headers))
 
-
-    #for i in descricoes:
-    #    print(i)
     #    print ("--------------------------------------------------------")
 
-
+df = pd.DataFrame(data = zip(anuncios,descricoes,),  columns = ['Anuncio','Descricao'])
+df.to_csv("Amostra.csv")
 
 
