@@ -1,12 +1,13 @@
 
+from turtle import numinput
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
 
 
-def getAnuncios(url,headers):
-    response = requests.get(url,headers=headers)
+def getAnuncios(urlPagina,headers):
+    response = requests.get(urlPagina,headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     a_tags = soup.select('a[data-lurker_list_position]')
     anuncios = []
@@ -16,37 +17,34 @@ def getAnuncios(url,headers):
     return anuncios
 
 
-def getDescricaoAnuncio(url,headers):
-    response = requests.get(url,headers=headers)
+def getDescricaoAnuncio(urlAnuncio,headers):
+    response = requests.get(urlAnuncio,headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     #exemplo da tag que contem a descricao do anuncio
     #<span class="sc-1sj3nln-1 eOSweo sc-ifAKCX cmFKIN" color="dark" font-weight="400">
-    span_tags = soup.select('span[font-weight][color="dark"]')
+    span_tags = soup.select('span[font-weight][color="dark"][class="sc-1sj3nln-1 eOSweo sc-ifAKCX cmFKIN"]')
+    
+    if(len(span_tags) == 0):
+        return "Erro Anuncio Vazio"
+        
+    descricao = span_tags[0].text
 
-
-    descricao = span_tags[1].text
-    if(descricao == "Calcule o frete" ):
-        descricao = span_tags[2].text
-    if(descricao == "Descrição" ):
-        descricao = span_tags[3].text
-    if(descricao == "Detalhes"):
-        #print("DETALHES_DEBUG")
-        descricao = span_tags[0].text
     return descricao
    
 
 headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
 
 
-url =  "https://mg.olx.com.br/eletronicos-e-celulares?o=1"
+urlbase =  "https://mg.olx.com.br/eletronicos-e-celulares?o="
 descricoes = []
 anuncios = []
-for i in range(1,5):
+numPaginas = int(input("Digite o numero De Paginas para carrregar \n (Lembre-se que cada página tem 50 anuncios):\n"))
+for i in range(1,numPaginas+1):
     #trocando de paginas
-    url = url[:-1] + str(i)
-    print("Coletando Pagina: \n",url)
+    urlPagina = urlbase + str(i)
+    print("Coletando Pagina: \n",urlPagina)
 
-    anuncios.extend(getAnuncios(url,headers))
+    anuncios.extend(getAnuncios(urlPagina,headers))
 
    
 count = 1
@@ -54,7 +52,7 @@ print(len(anuncios))
 
 
 for anuncio in anuncios:
-    print("Coletando Anuncio: ",count)
+    print("Coletando Anuncio: ",count,"/",len(anuncios))
     count = count + 1
     descricoes.append(getDescricaoAnuncio(anuncio,headers))
 
@@ -62,5 +60,3 @@ for anuncio in anuncios:
 
 df = pd.DataFrame(data = zip(anuncios,descricoes,),  columns = ['Anuncio','Descricao'])
 df.to_csv("Amostra.csv")
-
-
