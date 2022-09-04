@@ -3,3 +3,11 @@ geckodriver.log
 artigo.py
 testeDescricao.py
 .~lock.Amostra.csv#
+**/raw-files/
+**/process-files/
+**/created-files/
+**/backup-files/
+*/~$
+*/**/*.db
+**/venv/
+**/__pycache__
