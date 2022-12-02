@@ -1,0 +1,40 @@
+Álvaro Neto
+Ana Clara Samarino
+Israel de Melo Pedrosa
+Matheus Schimieguel
+
+
+
+CLASSIFICAÇÃO DE ANÚNCIOS DA OLX
+
+O propósito deste trabalho é criar um meio para classificar os anúncios da olx em categorias quando o usuário da olx cadastra o produto na plataforma. Para isso, fizemos um web scraping que pega os dados de anúncios da olx, e utilizamos o título e o preço dos anúncios para treinar um modelo de classificação utilizando o naive bayes e bernoulli.
+
+
+
+
+INSTRUÇÕES
+
+
+Abra a pasta presente no zip
+
+Recomendações:
+Tenha a versão atualizada do python
+Utilize um ambiente virtual (python -m venv venv - para windows) e ative o ambiente virtual (./venv/Scrips/Activate - para windows)
+
+
+Instale as bibliotecas necessárias -> pip install -r requirements.txt
+
+SCRAPING:
+Para executar o scraping é necessário rodar o notebook scraping_olx.ipynb, o mesmo pega todos os anúncios contidos na olx (aproximadamente 13 milhões de anúncios). Devido a isso, o tempo esperado de execução desse arquivo é de ~72horas, a depender de vários fatores como disponibilidade dos servidores da olx, velocidade da internet, dentre outros fatores externos. Um arquivo de banco de dados (“banco_scraping_olx.db”) é criado automaticamente ao tentar executar o scraping. 
+
+Para facilitar este passo, é disponibilizado o banco no link: 
+https://1drv.ms/u/s!AqhA7sKcJ6OljSSoBXMSTgvYyHNC?e=hGkcXX 
+
+ *O banco é grande (~10Gb), portanto não enviamos junto com o zip
+
+Coloque o banco baixado do link acima na pasta coleta_de_dados. (observação: Caso tenha testado o scraping e quiser pegar a base completa, substitua o arquivo  “banco_scraping_olx.db” - criado pelo scraping - pelo banco baixado no link informado)
+
+MODELO NAIVE BAYES:
+Entre na pasta classificacao_categoria. Para treinar o modelo de classificação execute o arquivo trainer.ipynb (demora em média 8 horas). 
+Já executamos e salvamos o modelo, para testar deve-se executar o arquivo use_model.ipynb colocando na última célula o título desejado para testar “procura_categoria('Aluguel casa 3 andares')”.
+Ainda iremos fazer testes com o modelo utilizando uma nova base de dados originária de um novo scraping.
