@@ -37,4 +37,7 @@ Coloque o banco baixado do link acima na pasta coleta_de_dados. (observação: C
 MODELO NAIVE BAYES:
 Entre na pasta classificacao_categoria. Para treinar o modelo de classificação execute o arquivo trainer.ipynb (demora em média 8 horas). 
 Já executamos e salvamos o modelo, para testar deve-se executar o arquivo use_model.ipynb colocando na última célula o título desejado para testar “procura_categoria('Aluguel casa 3 andares')”.
-Ainda iremos fazer testes com o modelo utilizando uma nova base de dados originária de um novo scraping.
+
+TESTES:
+O teste do modelo foi feito utilizando-se a base no link a seguir (proveniente de um novo scraping):
+https://1drv.ms/u/s!AqhA7sKcJ6OljScRg6E0Jk-OkVvP?e=qpHeon
